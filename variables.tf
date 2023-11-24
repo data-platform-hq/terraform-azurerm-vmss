@@ -26,7 +26,7 @@ variable "tags" {
 
 variable "scale_set" {
   type = object({
-    sku                             = optional(string, "Standard_B1ms")
+    sku                             = optional(string, "Standard_D2_v2")
     instances                       = optional(string, "2")
     admin_username                  = optional(string, "azureuser")
     disable_password_authentication = optional(bool, true)
