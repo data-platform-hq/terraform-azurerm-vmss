@@ -1,15 +1,37 @@
+resource "azurerm_public_ip_prefix" "this" {
+  count = var.public_ip_prefix_enabled ? 1 : 0
+
+  name                = coalesce(var.public_ip_prefix_name, "ip-prefix-${var.scale_set_name}")
+  location            = var.location
+  resource_group_name = var.resource_group
+  prefix_length       = var.public_ip_prefix_length
+}
+
 resource "azurerm_linux_virtual_machine_scale_set" "this" {
-  name                            = "scale-set-${var.project}-${var.env}-${var.location}"
+  name                            = var.scale_set_name
   resource_group_name             = var.resource_group
   location                        = var.location
   tags                            = var.tags
-  sku                             = var.scale_set.sku
-  instances                       = var.scale_set.instances
-  admin_username                  = var.scale_set.admin_username
-  disable_password_authentication = var.scale_set.disable_password_authentication
-  priority                        = var.scale_set.priority
-  overprovision                   = var.scale_set.overprovision
-  single_placement_group          = var.scale_set.single_placement_group
+  sku                             = var.scale_set_configuration.sku
+  instances                       = var.scale_set_configuration.instances
+  admin_username                  = var.scale_set_configuration.admin_username
+  disable_password_authentication = var.scale_set_configuration.disable_password_authentication
+  priority                        = var.scale_set_configuration.priority
+  overprovision                   = var.scale_set_configuration.overprovision
+  single_placement_group          = var.scale_set_configuration.single_placement_group
+  upgrade_mode                    = var.scale_set_configuration.upgrade_mode
+
+  dynamic "extension" {
+    for_each = var.extensions
+    content {
+      name                 = extension.value.name
+      publisher            = extension.value.publisher
+      type                 = extension.value.type
+      type_handler_version = extension.value.type_handler_version
+      settings             = extension.value.settings
+      protected_settings   = extension.value.protected_settings
+    }
+  }
 
   boot_diagnostics {
     storage_account_uri = null
@@ -28,7 +50,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   }
 
   dynamic "admin_ssh_key" {
-    for_each = var.scale_set.disable_password_authentication ? [] : [1]
+    for_each = var.scale_set_configuration.disable_password_authentication ? [] : [1]
 
     content {
       username   = var.admin_ssh_key.username
@@ -37,13 +59,22 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   }
 
   network_interface {
-    name    = "interface-${var.project}-${var.env}-${var.location}"
+    name    = "interface-${var.scale_set_name}"
     primary = true
 
     ip_configuration {
       name      = "internal"
       primary   = true
       subnet_id = var.subnet
+
+      dynamic "public_ip_address" {
+        for_each = var.public_ip_prefix_enabled ? [1] : [0]
+        content {
+          name                = "public"
+          public_ip_prefix_id = azurerm_public_ip_prefix.this[0].id
+          domain_name_label   = var.scale_set_configuration.domain_name_label
+        }
+      }
     }
   }
 
@@ -54,7 +85,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
   lifecycle {
     ignore_changes = [
-      instances
+      instances,
+      tags,
+      extension
     ]
   }
 }
