@@ -1,6 +1,6 @@
-variable "project" {
+variable "scale_set_name" {
   type        = string
-  description = "Project name"
+  description = "Virtual Machine Scale Set name."
 }
 
 variable "resource_group" {
@@ -8,14 +8,22 @@ variable "resource_group" {
   description = "The name of the resource group."
 }
 
-variable "env" {
-  type        = string
-  description = "The prefix which should be used for all resources in this environment"
-}
-
 variable "location" {
   type        = string
   description = "The Azure Region in which all resources in this example should be created."
+}
+
+variable "subnet" {
+  type        = string
+  description = "The ID of the Subnet where this Network first Interface should be located in."
+}
+
+variable "admin_ssh_key" {
+  description = "Objects to configure ssh key reference for Virtual Machine Scale Sets"
+  type = object({
+    username   = optional(string, "azureuser")
+    public_key = string
+  })
 }
 
 variable "tags" {
@@ -24,7 +32,25 @@ variable "tags" {
   default     = {}
 }
 
-variable "scale_set" {
+variable "public_ip_prefix_enabled" {
+  description = "Boolean flag that determines whether Public IP Address prefix is created for VM Scale Set."
+  type        = bool
+  default     = true
+}
+variable "public_ip_prefix_name" {
+  description = "Public IP Address prefix name."
+  type        = string
+  default     = null
+}
+
+variable "public_ip_prefix_length" {
+  description = "Public IP Address prefix length. Possible value are between 0 and 31."
+  type        = string
+  default     = 30
+}
+
+variable "scale_set_configuration" {
+  description = "Configuration options for linux virtual machine scale set"
   type = object({
     sku                             = optional(string, "Standard_D2_v2")
     instances                       = optional(string, "2")
@@ -33,44 +59,42 @@ variable "scale_set" {
     priority                        = optional(string, "Regular")
     overprovision                   = optional(bool, false)
     single_placement_group          = optional(bool, false)
+    upgrade_mode                    = optional(string, "Manual")
+    domain_name_label               = optional(string, null)
   })
-  description = "Configuration options for linux virtual machine scale set"
-  default     = {}
+  default = {}
 }
 
-variable "admin_ssh_key" {
-  type = object({
-    username   = optional(string, "azureuser")
-    public_key = optional(string)
-  })
-  description = "Objects to configure ssh key reference for Virtual Machine Scale Sets"
-}
-
-variable "subnet" {
-  type        = string
-  description = "The ID of the Subnet where this Network first Interface should be located in."
+variable "extensions" {
+  description = "Virtual Machine scale set extensions config"
+  type = set(object({
+    name                 = string
+    publisher            = string
+    type                 = string
+    type_handler_version = string
+    settings             = optional(string)
+    protected_settings   = optional(string)
+  }))
+  default = []
 }
 
 variable "os_disk" {
-  type = object({
-    caching              = string
-    storage_account_type = string
-  })
   description = "Objects to configure os disk reference for Virtual Machine Scale Sets"
-  default = {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-  }
+  type = object({
+    caching              = optional(string, "ReadWrite")
+    storage_account_type = optional(string, "Standard_LRS")
+  })
+  default = {}
 }
 
 variable "source_image_reference" {
+  description = "Objects to configure source image reference for Virtual Machine Scale Sets"
   type = object({
     publisher = string
     offer     = string
     sku       = string
     version   = string
   })
-  description = "Objects to configure source image reference for Virtual Machine Scale Sets"
   default = {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
