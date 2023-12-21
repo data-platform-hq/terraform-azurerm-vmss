@@ -13,7 +13,7 @@ variable "location" {
   description = "The Azure Region in which all resources in this example should be created."
 }
 
-variable "subnet" {
+variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet where this Network first Interface should be located in."
 }
@@ -24,6 +24,10 @@ variable "admin_ssh_key" {
     username   = optional(string, "azureuser")
     public_key = string
   })
+  default = {
+    username   = null
+    public_key = null
+  }
 }
 
 variable "tags" {
@@ -37,6 +41,7 @@ variable "public_ip_prefix_enabled" {
   type        = bool
   default     = true
 }
+
 variable "public_ip_prefix_name" {
   description = "Public IP Address prefix name."
   type        = string
@@ -55,12 +60,15 @@ variable "scale_set_configuration" {
     sku                             = optional(string, "Standard_D2_v2")
     instances                       = optional(string, "2")
     admin_username                  = optional(string, "azureuser")
+    admin_password                  = optional(string, null)
     disable_password_authentication = optional(bool, true)
     priority                        = optional(string, "Regular")
     overprovision                   = optional(bool, false)
     single_placement_group          = optional(bool, false)
     upgrade_mode                    = optional(string, "Manual")
+    enable_ip_forwarding_interface  = optional(bool, false)
     domain_name_label               = optional(string, null)
+    lb_backend_address_pool_ids     = optional(list(string), [])
   })
   default = {}
 }
