@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.1.0...v1.2.0) (2023-12-21)
+
+
+### Features
+
+* added lb support; added password auth support ([357a49f](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/357a49fc4396930bdbe46fcbf343d6c52363b2a8))
+
 # [1.1.0](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.0.0...v1.1.0) (2023-11-29)
 
 
