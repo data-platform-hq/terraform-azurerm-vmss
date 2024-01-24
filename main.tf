@@ -4,6 +4,7 @@ resource "azurerm_public_ip_prefix" "this" {
   name                = coalesce(var.public_ip_prefix_name, "ip-prefix-${var.scale_set_name}")
   location            = var.location
   resource_group_name = var.resource_group
+  tags                = var.tags
   prefix_length       = var.public_ip_prefix_length
 }
 
