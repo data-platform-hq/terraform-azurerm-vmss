@@ -35,6 +35,17 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
+  dynamic "extension" {
+    for_each = alltrue([var.enable_data_collection_rule, var.enable_scale_set_extension]) ? [1] : []
+    content {
+      name                       = "DependencyAgent"
+      publisher                  = "Microsoft.Azure.Monitoring.DependencyAgent"
+      type                       = "DependencyAgentLinux"
+      type_handler_version       = var.dependency_agent_extension_version
+      auto_upgrade_minor_version = true
+    }
+  }
+
   boot_diagnostics {
     storage_account_uri = null
   }
@@ -117,17 +128,6 @@ resource "azurerm_monitor_data_collection_rule" "this" {
       name           = var.datasource_name
     }
   }
-}
-
-resource "azurerm_virtual_machine_scale_set_extension" "this" {
-  count = alltrue([var.enable_data_collection_rule, var.enable_scale_set_extension]) ? 1 : 0
-
-  name                         = "DependencyAgent"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
-  publisher                    = "Microsoft.Azure.Monitoring.DependencyAgent"
-  type                         = "DependencyAgentLinux"
-  type_handler_version         = var.dependency_agent_extension_version
-  auto_upgrade_minor_version   = true
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "this" {
