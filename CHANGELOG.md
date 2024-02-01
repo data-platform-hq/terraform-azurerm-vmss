@@ -1,3 +1,11 @@
+## [1.2.3](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.2...v1.2.3) (2024-02-01)
+
+
+### Bug Fixes
+
+* fixed dcr extension ([cfae262](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/cfae262d10bbb12b53aa97292bc54a031b0bc397))
+* fmt ([9edc5ac](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/9edc5ac7f2076e282e6ac89b0c184d4dbcce6c41))
+
 ## [1.2.2](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.1...v1.2.2) (2024-02-01)
 
 
