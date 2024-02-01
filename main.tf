@@ -1,7 +1,7 @@
 resource "azurerm_public_ip_prefix" "this" {
   count = var.public_ip_prefix_enabled ? 1 : 0
 
-  name                = coalesce(var.public_ip_prefix_name, "ip-prefix-${var.scale_set_name}")
+  name                = coalesce(var.public_ip_prefix_name, "pip-${var.scale_set_name}")
   location            = var.location
   resource_group_name = var.resource_group
   tags                = var.tags
@@ -55,7 +55,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   }
 
   network_interface {
-    name                 = "interface-${var.scale_set_name}"
+    name                 = "nic-${var.scale_set_name}"
     primary              = true
     enable_ip_forwarding = var.scale_set_configuration.enable_ip_forwarding_interface
 
@@ -87,4 +87,54 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       tags
     ]
   }
+}
+
+# Data Collection Rules
+resource "azurerm_monitor_data_collection_rule" "this" {
+  count = var.enable_data_collection_rule ? 1 : 0
+
+  name                = coalesce(var.data_collection_rule_name, "dcr-${var.scale_set_name}")
+  location            = var.location
+  resource_group_name = var.resource_group
+  kind                = "Linux"
+
+  destinations {
+    log_analytics {
+      workspace_resource_id = var.analytics_workspace_id
+      name                  = "log-${var.scale_set_name}"
+    }
+  }
+
+  data_flow {
+    streams      = ["Microsoft-Syslog"]
+    destinations = ["log-${var.scale_set_name}"]
+  }
+
+  data_sources {
+    syslog {
+      facility_names = var.facility_names
+      log_levels     = var.log_levels
+      name           = var.datasource_name
+    }
+  }
+}
+
+resource "azurerm_virtual_machine_scale_set_extension" "this" {
+  count = alltrue([var.enable_data_collection_rule, var.enable_scale_set_extension]) ? 1 : 0
+
+  name                         = "DependencyAgent"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
+  publisher                    = "Microsoft.Azure.Monitoring.DependencyAgent"
+  type                         = "DependencyAgentLinux"
+  type_handler_version         = var.dependency_agent_extension_version
+  auto_upgrade_minor_version   = true
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "this" {
+  count = alltrue([var.enable_data_collection_rule, var.enable_data_collection_rule_association]) ? 1 : 0
+
+  name                    = coalesce(var.data_collection_rule_association_name, "dcr-${var.scale_set_name}")
+  target_resource_id      = azurerm_linux_virtual_machine_scale_set.this.id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.this[0].id
+  description             = var.dcr_association_description
 }

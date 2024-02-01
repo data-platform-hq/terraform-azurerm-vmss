@@ -110,3 +110,69 @@ variable "source_image_reference" {
     version   = "latest"
   }
 }
+
+variable "analytics_workspace_id" {
+  type        = string
+  description = "Resource ID of Log Analytics Workspace"
+  default     = null
+}
+
+variable "enable_data_collection_rule" {
+  type        = bool
+  description = "Enable data collection rule. var.analytics_workspace_id must be provided"
+  default     = false
+}
+
+variable "enable_scale_set_extension" {
+  type        = bool
+  description = "Enable scale set extension. var.analytics_workspace_id must be provided"
+  default     = true
+}
+
+variable "enable_data_collection_rule_association" {
+  type        = bool
+  description = "Enable data collection rule association. var.analytics_workspace_id must be provided"
+  default     = true
+}
+
+variable "data_collection_rule_association_name" {
+  type        = string
+  description = "Data collection rule association name"
+  default     = null
+}
+
+variable "data_collection_rule_name" {
+  type        = string
+  description = "Data collection rule name"
+  default     = null
+}
+
+variable "dcr_association_description" {
+  type        = string
+  description = "Description of Data collection rule association"
+  default     = "Association between the Data Collection Rule and the Linux VM."
+}
+
+variable "facility_names" {
+  type        = list(string)
+  description = "List of Facility names"
+  default     = ["daemon", "syslog", "user"]
+}
+
+variable "log_levels" {
+  type        = list(string)
+  description = "List of Log levels"
+  default     = ["Debug"]
+}
+
+variable "datasource_name" {
+  type        = string
+  description = "Datasource syslog name"
+  default     = "datasource-syslog"
+}
+
+variable "dependency_agent_extension_version" {
+  type        = string
+  description = "Version of VMSS extension required for logging"
+  default     = "9.5"
+}
