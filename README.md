@@ -59,6 +59,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_ssh_key"></a> [admin\_ssh\_key](#input\_admin\_ssh\_key) | Objects to configure ssh key reference for Virtual Machine Scale Sets | <pre>object({<br>    username   = optional(string, "azureuser")<br>    public_key = string<br>  })</pre> | <pre>{<br>  "public_key": null,<br>  "username": null<br>}</pre> | no |
 | <a name="input_analytics_workspace_id"></a> [analytics\_workspace\_id](#input\_analytics\_workspace\_id) | Resource ID of Log Analytics Workspace | `string` | `null` | no |
+| <a name="input_automatic_os_upgrade_policy"></a> [automatic\_os\_upgrade\_policy](#input\_automatic\_os\_upgrade\_policy) | Configuration options for automatic os upgrade policy | <pre>object({<br>    disable_automatic_rollback  = optional(bool, false)<br>    enable_automatic_os_upgrade = optional(bool, false)<br>  })</pre> | `{}` | no |
 | <a name="input_data_collection_rule_association_name"></a> [data\_collection\_rule\_association\_name](#input\_data\_collection\_rule\_association\_name) | Data collection rule association name | `string` | `null` | no |
 | <a name="input_data_collection_rule_name"></a> [data\_collection\_rule\_name](#input\_data\_collection\_rule\_name) | Data collection rule name | `string` | `null` | no |
 | <a name="input_datasource_name"></a> [datasource\_name](#input\_datasource\_name) | Datasource syslog name | `string` | `"datasource-syslog"` | no |
