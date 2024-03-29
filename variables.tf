@@ -176,3 +176,12 @@ variable "dependency_agent_extension_version" {
   description = "Version of VMSS extension required for logging"
   default     = "9.5"
 }
+
+variable "automatic_os_upgrade_policy" {
+  description = "Configuration options for automatic os upgrade policy"
+  type = object({
+    disable_automatic_rollback  = optional(bool, false)
+    enable_automatic_os_upgrade = optional(bool, false)
+  })
+  default = {}
+}

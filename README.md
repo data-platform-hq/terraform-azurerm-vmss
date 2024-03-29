@@ -81,6 +81,7 @@ No modules.
 | <a name="input_source_image_reference"></a> [source\_image\_reference](#input\_source\_image\_reference) | Objects to configure source image reference for Virtual Machine Scale Sets | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | <pre>{<br>  "offer": "0001-com-ubuntu-server-jammy",<br>  "publisher": "Canonical",<br>  "sku": "22_04-lts",<br>  "version": "latest"<br>}</pre> | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The ID of the Subnet where this Network first Interface should be located in. | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | list of tags | `map(string)` | `{}` | no |
+| <a name="input_automatic_os_upgrade_policy"></a> [automatic\_os\_upgrade\_policy](#input\_automatic\_os\_upgrade\_policy) | Configuration options for automatic os upgrade policy | <pre>object({<br>    disable_automatic_rollback  = optional(bool, false)<br>    enable_automatic_os_upgrade = optional(bool, false)<br>  })</pre> | `{}` | no |
 
 ## Outputs
 
