@@ -1,3 +1,12 @@
+## [1.2.4](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.3...v1.2.4) (2024-03-29)
+
+
+### Bug Fixes
+
+* added security KICS scan action ([cb6ff23](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/cb6ff23ba3b7614cabb32e2ec8f215ac0037803f))
+* replaced pre-commit repo docs creation/update by GH Actions ([ddfdc49](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/ddfdc49458096cb46ebc259aad99d10a9c789632))
+* vmss os update policy ([dd122d0](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/dd122d0583f1c5a2622d9940f610893be07d703c))
+
 ## [1.2.3](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.2...v1.2.3) (2024-02-01)
 
 
