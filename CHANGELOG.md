@@ -1,3 +1,11 @@
+## [1.2.5](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.4...v1.2.5) (2024-06-11)
+
+
+### Bug Fixes
+
+* add identity block ([8bb9d7f](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/8bb9d7f594c099907e1aee501e86122691efccf2))
+* add variable ([e94b81a](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/e94b81acb4cab54632848946de3d74a499975901))
+
 ## [1.2.4](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.3...v1.2.4) (2024-03-29)
 
 
