@@ -23,6 +23,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   single_placement_group          = var.scale_set_configuration.single_placement_group
   upgrade_mode                    = var.scale_set_configuration.upgrade_mode
 
+  identity {
+    type         = var.identity_ids == null ? "SystemAssigned" : "SystemAssigned, UserAssigned"
+    identity_ids = var.identity_ids
+  }
+
   dynamic "extension" {
     for_each = var.extensions
     content {
