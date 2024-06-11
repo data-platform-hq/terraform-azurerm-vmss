@@ -185,3 +185,9 @@ variable "automatic_os_upgrade_policy" {
   })
   default = {}
 }
+
+variable "identity_ids" {
+  type        = list(string)
+  description = "List of user assigned identity IDs"
+  default     = null
+}
