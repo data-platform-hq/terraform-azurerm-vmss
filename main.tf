@@ -51,9 +51,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
-  automatic_os_upgrade_policy {
-    disable_automatic_rollback  = var.automatic_os_upgrade_policy.disable_automatic_rollback
-    enable_automatic_os_upgrade = var.automatic_os_upgrade_policy.enable_automatic_os_upgrade
+  dynamic "automatic_os_upgrade_policy" {
+    for_each = var.automatic_os_upgrade_policy_enabled ? [1] : []
+    content {
+      disable_automatic_rollback  = var.automatic_os_upgrade_policy.disable_automatic_rollback
+      enable_automatic_os_upgrade = var.automatic_os_upgrade_policy.enable_automatic_os_upgrade
+    }
   }
 
   boot_diagnostics {

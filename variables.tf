@@ -177,6 +177,12 @@ variable "dependency_agent_extension_version" {
   default     = "9.5"
 }
 
+variable "automatic_os_upgrade_policy_enabled" {
+  description = "Boolean flag that determines whether automatic os upgrade policy is enabled"
+  type        = bool
+  default     = false
+}
+
 variable "automatic_os_upgrade_policy" {
   description = "Configuration options for automatic os upgrade policy"
   type = object({
