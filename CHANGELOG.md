@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.5...v1.2.6) (2024-06-20)
+
+
+### Bug Fixes
+
+* support flag for automatic os upgrade policy block ([13b1629](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/13b162969778a41cf3e1401f3b18389a3c9910a2))
+
 ## [1.2.5](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.4...v1.2.5) (2024-06-11)
 
 
