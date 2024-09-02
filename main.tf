@@ -136,6 +136,7 @@ resource "azurerm_monitor_data_collection_rule" "this" {
 
   data_sources {
     syslog {
+      streams        = ["Microsoft-Syslog"]
       facility_names = var.facility_names
       log_levels     = var.log_levels
       name           = var.datasource_name
