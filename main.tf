@@ -139,6 +139,7 @@ resource "azurerm_monitor_data_collection_rule" "this" {
       facility_names = var.facility_names
       log_levels     = var.log_levels
       name           = var.datasource_name
+      streams        = ["Microsoft-Syslog"]
     }
   }
 }
