@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.6...v1.3.0) (2024-09-13)
+
+
+### Features
+
+* upgrade to azurerm v4 ([45b55ec](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/45b55ece3055489ff6ce932d21fcd9f353e5c20e))
+
 ## [1.2.6](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.5...v1.2.6) (2024-06-20)
 
 
