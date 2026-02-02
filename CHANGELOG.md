@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.3.0...v1.4.0) (2026-02-02)
+
+
+### Features
+
+* upgrade provider to AzureRM v4.0 ([ddad9a6](https://github.com/data-platform-hq/terraform-azurerm-vmss/commit/ddad9a6fdea225ed9c630bcbc7eb5e0e3d74669a))
+
 # [1.3.0](https://github.com/data-platform-hq/terraform-azurerm-vmss/compare/v1.2.6...v1.3.0) (2024-09-13)
 
 
